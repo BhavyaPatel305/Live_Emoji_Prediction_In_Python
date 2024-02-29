@@ -73,6 +73,31 @@ y = np.array(y,dtype="int32")
 y = to_categorical(y)
 #print(y): Illustration Purpose
 
+# Now with the previous version of the code,
+# the problem is that first our model is learning hello, hello, hello, ...
+# then it learns goodluck, goodluck, goodluck, ...
+# then it learns nope, nope, nope, ...
+# which is not good
+# Our model could do better predictions if our data is shuffled
+X_new = X.copy()
+y_new = y.copy()
+counter = 0
+
+# What arange function returns:
+# Eg: np.arange(5) -> [0, 1, 2, 3, 4]
+cnt = np.arange(X.shape[0]) # X.shape[0] means no.of rows in X
+# Shuffling the data
+np.random.shuffle(cnt)
+
+# Iterating the loop to fill shuffled data in X_new and y_new
+# i will have the shuffled values
+for i in cnt:
+    X_new[counter] = X[i]
+    y_new[counter] = y[i]
+    counter += 1
+# print(y): testing purpose
+# print(y_new): testing purpose
+
 # Building Model
 
 # Input Layer
@@ -105,3 +130,9 @@ model.compile(optimizer='rmsprop', loss="categorical_crossentropy", metrics=['ac
 
 # Fit the model
 model.fit(X, y, epochs=50)
+
+# After shuffling the data, now the model should be accurate to predict
+
+# Save the model
+model.save("model.h5")
+np.save("labels.npy", np.array(label))
