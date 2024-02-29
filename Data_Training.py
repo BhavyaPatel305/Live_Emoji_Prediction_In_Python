@@ -24,8 +24,8 @@ c = 0
 
 # Search for all the .npy files in the directory, which have data in them
 for i in os.listdir():
-    # Only interested in .npy files
-    if i.split(".")[-1] == "npy":
+    # Only interested in .npy files and also not interested in labels.npy file, so ignore it
+    if i.split(".")[-1] == "npy" and not(i.split(".")[0] == "labels"):
         if not(is_init):
             is_init = True
             # Input Data: Load the .npy file
